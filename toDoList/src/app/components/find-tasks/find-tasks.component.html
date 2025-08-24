@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-center">
+  <form [formGroup]="formFilter" (ngSubmit)="onSubmit()" class="form-filter d-flex justify-content-between">
+    <button matFab aria-label="Adicionar Filtro" type="button" class="addFilter icon-filter">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <mat-form-field class="middle-width">
+      <mat-label>Campo</mat-label>
+      <input
+        type="text"
+        placeholder="Filtrar por"
+        aria-label="Campo"
+        matInput
+        formControlName="campo"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        @for (option of filteredOptions | async; track option) {
+        <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="middle-width">
+      <mat-label>Buscar</mat-label>
+      <input
+        type="text"
+        placeholder="PENDENTE"
+        aria-label="Valor"
+        matInput
+        formControlName="valor"
+      />
+    </mat-form-field>
+
+    <button matFab aria-label="Buscar Tarefas" type="submit" class="icon-filter">
+      <mat-icon>search</mat-icon>
+    </button>
+  </form>
+</div>
+
+<p>{{ formFilter.value }}</p>

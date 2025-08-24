@@ -1,0 +1,26 @@
+.icon-filter {
+  margin-bottom: 10px;
+}
+
+.form-filter {
+  gap: 20px;                 /* Espaço entre cada item */
+  width: 100%;
+  max-width: 900px;          /* Limita a largura centralizada */
+  margin-top: 10px;
+}
+
+.middle-width {
+  flex: 1;                   /* Faz os campos ocuparem o mesmo espaço */
+  min-width: 200px;          /* Garante responsividade */
+}
+
+.addFilter {
+  background-color: rgb(162, 219, 162);
+  color: green;
+}
+
+.addFilter, .icon-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

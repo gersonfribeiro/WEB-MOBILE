@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { FindTasksComponent } from "../find-tasks/find-tasks.component";
 
 @Component({
   selector: 'ToDoList',
-  imports: [],
+  imports: [FindTasksComponent],
   templateUrl: './to-do-list.html',
   styleUrl: './to-do-list.css'
 })

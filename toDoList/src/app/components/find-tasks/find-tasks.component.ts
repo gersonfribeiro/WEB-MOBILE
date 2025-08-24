@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { AsyncPipe } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { ListTasksComponent } from '../list-tasks/list-tasks.component';
+
+interface filtrosTask {
+  campo: string;
+  valor: string;
+}
 
 @Component({
   selector: 'app-find-tasks',
@@ -26,39 +25,80 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatAutocompleteModule,
+    MatSidenavModule,
     ReactiveFormsModule,
-    AsyncPipe,
+    CommonModule,
+    ListTasksComponent,
   ],
   templateUrl: './find-tasks.component.html',
   styleUrl: './find-tasks.component.css',
 })
-export class FindTasksComponent implements OnInit {
+export class FindTasksComponent {
   formFilter: FormGroup;
+
+  @ViewChild('selectCampo') selectCampo: ElementRef<HTMLInputElement> | undefined;
+  options: string[] = ['ID', 'URGÊNCIA', 'STATUS', 'RESPONSAVEL', 'TÍTULO', 'PREVISÃO DE ENTREGA'];
+  filteredOptions: string[]  | undefined;
 
   constructor(private fb: FormBuilder) {
     this.formFilter = this.fb.group({
-      campo: ['status'], // string
-      valor: ['PENDENTE'], // string
+      campo: ['STATUS'],
+      valor: ['PENDENTE'],
     });
+    this.filteredOptions = this.options.slice();
   }
-  options: string[] = ['id', 'urgencia', 'status', 'responsável', 'título', 'previsao de entrega'];
-  filteredOptions: Observable<string[]> | undefined;
 
-  ngOnInit() {
-    this.filteredOptions = this.formFilter.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value || ''))
+  filter(): void {
+    const filterValue = this.selectCampo?.nativeElement.value.toUpperCase() ?? 'STATUS';
+    this.filteredOptions = this.options.filter(o => o.toUpperCase().includes(filterValue));
+  }
+
+  filtrosTask: filtrosTask[] = [];
+
+  private _filter(value: any): string[] {
+    const filterValue = (value ?? '').toString().toUpperCase();
+    return this.options.filter((option) => option.toUpperCase().includes(filterValue));
+  }
+
+  addFiltro() {
+    const filtroExistente = this.filtrosTask.find(
+      (filtro) =>
+        filtro.campo.toUpperCase() === this.formFilter.value.campo.toUpperCase() &&
+        filtro.valor.toUpperCase() === this.formFilter.value.valor.toUpperCase()
     );
+    if (filtroExistente) {
+      console.error('Filtro já aplicado');
+      return;
+    } else {
+      this.formFilter.value.campo = this.formFilter.value.campo.toUpperCase();
+      this.formFilter.value.valor = this.formFilter.value.valor.toUpperCase();
+
+      this.filtrosTask.push(this.formFilter.value);
+      this.onClear();
+    }
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter((option) => option.toLowerCase().includes(filterValue));
+  onClear(): void {
+    this.formFilter.reset({
+      campo: 'STATUS',
+      valor: 'PENDENTE',
+    });
   }
 
   onSubmit() {
-    console.log('Filtro enviado:', this.formFilter.value);
-    // Exemplo: { campo: 'nome', valor: 'Gerson' }
+    if (this.filtrosTask.length > 0) console.log('Filtros enviados:', this.filtrosTask);
+    else console.log('Filtros enviados:', this.formFilter.value);
+  }
+
+  @ViewChild('drawer') drawer!: MatSidenav;
+
+  removerFiltro(index: number) {
+    console.log('index a remover: ', [index, this.filtrosTask[index]]);
+    this.filtrosTask.slice(index, 1);
+    console.log(this.filtrosTask);
+  }
+
+  toggle() {
+    this.drawer.toggle();
   }
 }

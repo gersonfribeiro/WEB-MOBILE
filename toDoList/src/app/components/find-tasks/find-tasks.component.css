@@ -3,15 +3,15 @@
 }
 
 .form-filter {
-  gap: 20px;                 /* Espaço entre cada item */
+  gap: 20px;
   width: 100%;
-  max-width: 900px;          /* Limita a largura centralizada */
+  max-width: 900px;
   margin-top: 10px;
 }
 
 .middle-width {
-  flex: 1;                   /* Faz os campos ocuparem o mesmo espaço */
-  min-width: 200px;          /* Garante responsividade */
+  flex: 1;
+  min-width: 200px;
 }
 
 .addFilter {
@@ -19,8 +19,35 @@
   color: green;
 }
 
-.addFilter, .icon-filter {
+.clear-form {
+  background-color: rgb(238, 171, 83);
+  color: rgb(255, 77, 0);
+}
+
+.icon-filter {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.icon-delete-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(245, 170, 170);
+  color: red;
+}
+
+mat-drawer-container {
+  height: 100vh;
+  width: 100%;
+}
+
+mat-drawer {
+  width: 300px;
+  padding: 16px;
+}
+
+.drawer-content {
+  padding: 16px;
 }

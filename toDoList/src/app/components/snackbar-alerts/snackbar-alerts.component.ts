@@ -13,9 +13,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class SnackbarAlertsComponent {
   private _snackBar = inject(MatSnackBar);
-
-  mensagem = '';
-  typeSnackbar = '';
   durationInSeconds = 5;
 
   openSnackBar(mensagem: string, typeSnackbar: string, action?: string) {

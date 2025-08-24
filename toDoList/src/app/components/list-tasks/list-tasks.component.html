@@ -1,0 +1,104 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>EDITAR</th>
+      <td mat-cell *matCellDef="let element">
+        <button matMiniFab type="button" class="info-center">
+
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="responsaveis">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>RESPONSÁVEIS</th>
+      <td mat-cell *matCellDef="let element">
+        @for (responsavel of element.responsaveis; track $index; let i = $index) {
+          {{ responsavel.toUpperCase() }} <br>
+        }
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="urgencia">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>URGÊNCIA</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          matMiniFab
+          type="button"
+          class="info-center"
+          [ngClass]="element.urgencia.toLowerCase()"
+        >
+          {{ element.urgencia }}
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>STATUS</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          matMiniFab
+          type="button"
+          class="info-center"
+          [ngClass]="element.status.toLowerCase().replace(' ', '-')"
+        >
+          {{ element.status }}
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="titulo">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>TÍTULO</th>
+      <td mat-cell *matCellDef="let element">{{ element.titulo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="descricao">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>DESCRIÇÃO</th>
+      <td mat-cell *matCellDef="let element">{{ element.descricao }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="previsaoEntrega">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>PREV. ENTREGA</th>
+      <td mat-cell *matCellDef="let element" class="data-align">
+        {{ element.previsaoEntrega | date : 'yyyy-MM-dd' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataInicio">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>INICIO</th>
+      <td mat-cell *matCellDef="let element" class="data-align">
+        @if(element.dataInicio) {
+          {{ element.dataInicio | date : 'yyyy-MM-dd' }}
+        } @else {
+          NÃO INICIADO
+        }
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataEntrega">
+      <th class="data-align" mat-header-cell *matHeaderCellDef>DATA DE ENTREGA</th>
+      <td mat-cell *matCellDef="let element" class="data-align">
+        @if(element.dataEntrega) {
+          {{ element.dataEntrega | date : 'yyyy-MM-dd' }}
+        } @else {
+          NÃO ENTREGUE
+        }
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-divider />
+
+  <div class="d-flex justify-content-center mt-5">
+    <mat-paginator
+      class="paginator"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Selecionar o limite de registros por página"
+    >
+    </mat-paginator>
+  </div>
+</div>

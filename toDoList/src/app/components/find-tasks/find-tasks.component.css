@@ -20,8 +20,8 @@
 }
 
 .clear-form {
-  background-color: rgb(238, 171, 83);
-  color: rgb(255, 77, 0);
+  background-color: rgb(241, 192, 128);
+  color: rgb(255, 34, 0);
 }
 
 .icon-filter {
@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(245, 170, 170);
+  background-color: rgb(255, 200, 200);
   color: red;
 }
 
@@ -46,8 +46,22 @@ mat-drawer-container {
 mat-drawer {
   width: 300px;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .drawer-content {
   padding: 16px;
+}
+
+.btn-clear-all {
+  background-color: rgb(255, 200, 200);
+  color: red;
+  width: 100%;
+  margin-top: auto;
+}
+.icon-dialog-form-tasks {
+  margin-left: 20px;
+  background-color: rgb(162, 219, 162);
+  color: green;
 }

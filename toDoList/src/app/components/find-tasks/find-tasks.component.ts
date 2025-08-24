@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { ListTasksComponent } from '../list-tasks/list-tasks.component';
 import { SnackbarAlertsComponent } from "../snackbar-alerts/snackbar-alerts.component";
+import { DialogFormTasksComponent } from "../dialog-form-tasks/dialog-form-tasks.component";
 
 interface filtrosTask {
   campo: string;
@@ -30,7 +31,8 @@ interface filtrosTask {
     ReactiveFormsModule,
     CommonModule,
     ListTasksComponent,
-    SnackbarAlertsComponent
+    SnackbarAlertsComponent,
+    DialogFormTasksComponent
 ],
   templateUrl: './find-tasks.component.html',
   styleUrl: './find-tasks.component.css',
@@ -64,7 +66,7 @@ export class FindTasksComponent {
         filtro.valor.toUpperCase() === this.formFilter.value.valor.toUpperCase()
     );
     if (filtroExistente) {
-      this.emitirAlerta('Filtro já aplicado!', 'error', 'Fechar');
+      this.emitirAlerta('Filtro já adicionado!', 'error', 'Fechar');
       return;
     } else {
       this.formFilter.value.campo = this.formFilter.value.campo.toUpperCase();
@@ -94,6 +96,10 @@ export class FindTasksComponent {
     console.log(this.filtrosTask);
   }
 
+  removerTodosFiltros() {
+    this.filtrosTask = [];
+  }
+
   toggle() {
     this.drawer.toggle();
   }
@@ -102,5 +108,11 @@ export class FindTasksComponent {
 
   emitirAlerta(mensagem: string, type: string, action: string) {
     this.alertsComponent.openSnackBar(mensagem, type, action);
+  }
+
+  @ViewChild(DialogFormTasksComponent) dialogFormTasks!: DialogFormTasksComponent;
+
+  openDialogFormTasks() {
+    this.dialogFormTasks.openDialog();
   }
 }

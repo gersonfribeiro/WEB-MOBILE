@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { ListTasksComponent } from '../list-tasks/list-tasks.component';
+import { SnackbarAlertsComponent } from "../snackbar-alerts/snackbar-alerts.component";
 
 interface filtrosTask {
   campo: string;
@@ -19,8 +20,8 @@ interface filtrosTask {
   selector: 'app-find-tasks',
   imports: [
     MatButtonModule,
-    MatDividerModule,
     MatIconModule,
+    MatDividerModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -29,7 +30,8 @@ interface filtrosTask {
     ReactiveFormsModule,
     CommonModule,
     ListTasksComponent,
-  ],
+    SnackbarAlertsComponent
+],
   templateUrl: './find-tasks.component.html',
   styleUrl: './find-tasks.component.css',
 })
@@ -55,11 +57,6 @@ export class FindTasksComponent {
 
   filtrosTask: filtrosTask[] = [];
 
-  private _filter(value: any): string[] {
-    const filterValue = (value ?? '').toString().toUpperCase();
-    return this.options.filter((option) => option.toUpperCase().includes(filterValue));
-  }
-
   addFiltro() {
     const filtroExistente = this.filtrosTask.find(
       (filtro) =>
@@ -67,12 +64,11 @@ export class FindTasksComponent {
         filtro.valor.toUpperCase() === this.formFilter.value.valor.toUpperCase()
     );
     if (filtroExistente) {
-      console.error('Filtro já aplicado');
+      this.emitirAlerta('Filtro já aplicado!', 'error', 'Fechar');
       return;
     } else {
       this.formFilter.value.campo = this.formFilter.value.campo.toUpperCase();
       this.formFilter.value.valor = this.formFilter.value.valor.toUpperCase();
-
       this.filtrosTask.push(this.formFilter.value);
       this.onClear();
     }
@@ -100,5 +96,11 @@ export class FindTasksComponent {
 
   toggle() {
     this.drawer.toggle();
+  }
+
+  @ViewChild(SnackbarAlertsComponent) alertsComponent!: SnackbarAlertsComponent;
+
+  emitirAlerta(mensagem: string, type: string, action: string) {
+    this.alertsComponent.openSnackBar(mensagem, type, action);
   }
 }

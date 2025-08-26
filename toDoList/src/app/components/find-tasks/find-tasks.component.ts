@@ -33,7 +33,7 @@ interface filtrosTask {
     ListTasksComponent,
     SnackbarAlertsComponent,
     DialogFormTasksComponent
-],
+  ],
   templateUrl: './find-tasks.component.html',
   styleUrl: './find-tasks.component.css',
 })

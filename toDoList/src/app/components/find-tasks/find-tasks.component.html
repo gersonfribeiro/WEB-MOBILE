@@ -63,7 +63,7 @@
             <mat-icon>visibility</mat-icon>
           </button>
 
-          <mat-form-field class="middle-width">
+          <mat-form-field class="middle-width" appearance="outline">
             <mat-label>Campo</mat-label>
             <input
               #selectCampo
@@ -83,7 +83,7 @@
             </mat-autocomplete>
           </mat-form-field>
 
-          <mat-form-field class="middle-width">
+          <mat-form-field class="middle-width" appearance="outline">
             <mat-label>Buscar</mat-label>
             <input
               type="text"
@@ -119,10 +119,9 @@
         <mat-icon>add_circle</mat-icon>
       </button>
 
-
       <app-list-tasks />
       <app-snackbar-alerts #alerts />
-      <app-dialog-form-tasks #dialogFormTasks/>
     </ng-content>
   </div>
 </mat-drawer-container>
+<app-dialog-form-tasks #dialogFormTasks/>

@@ -222,3 +222,5 @@ export const toDoData: toDoModel[] = [
     dataEntrega: new Date('2025-09-12'),
   },
 ];
+
+export const funcionarios: string[] = ['Fernanda', 'Carla', 'Eduardo', 'Bruno', 'Zeca', 'Ana', 'Yara', 'Wesley', 'Xuxa', 'Vitor', 'Tiago', 'Ursula', 'Sofia', 'Quésia', 'Rafael', 'Paulo', 'Nina', 'Otávio', 'Marina', 'João', 'Lucas', 'Isabela', 'Gabriel', 'Helena', 'Carlos']

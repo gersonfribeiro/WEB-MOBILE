@@ -171,8 +171,15 @@ O tipo `toDoModel` define a estrutura de cada task:
 
 ```typescript
 export interface toDoModel {
-    id: number;
-    
+  id: number;
+  responsaveis: string[];
+  urgencia: 'BAIXA' | 'MEDIA' | 'ALTA' | 'PRIORIDADE';
+  status: 'PENDENTE' | 'EM EXECUÇÃO' | 'REVISÃO PENDENTE' | 'CONCLUÍDA' | 'APROVADA' | 'CANCELADA';
+  titulo: string;
+  descricao: string;
+  previsaoEntrega: Date;
+  dataInicio: Date;
+  dataEntrega: Date;
 }
 ```
 

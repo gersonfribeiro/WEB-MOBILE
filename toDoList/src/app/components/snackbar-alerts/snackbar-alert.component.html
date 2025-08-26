@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between" [ngClass]="data.type">
+  <div class="d-flex align-self-center">
+    <span>
+      {{ data.mensagem }}
+    </span>
+  </div>
+
+  <div>
+    @if(data.action) {
+      <button matMiniFab (click)="onActionClick()">{{ data.action }}</button>
+    }
+  </div>
+</div>

@@ -1,0 +1,67 @@
+.icon-filter {
+  margin-bottom: 10px;
+}
+
+.form-filter {
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 10px;
+}
+
+.middle-width {
+  flex: 1;
+  min-width: 200px;
+}
+
+.addFilter {
+  background-color: rgb(162, 219, 162);
+  color: green;
+}
+
+.clear-form {
+  background-color: rgb(241, 192, 128);
+  color: rgb(255, 34, 0);
+}
+
+.icon-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-delete-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 200, 200);
+  color: red;
+}
+
+mat-drawer-container {
+  height: 100vh;
+  width: 100%;
+}
+
+mat-drawer {
+  width: 300px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-content {
+  padding: 16px;
+}
+
+.btn-clear-all {
+  background-color: rgb(255, 200, 200);
+  color: red;
+  width: 100%;
+  margin-top: auto;
+}
+.icon-dialog-form-tasks {
+  margin-left: 20px;
+  background-color: rgb(162, 219, 162);
+  color: green;
+}

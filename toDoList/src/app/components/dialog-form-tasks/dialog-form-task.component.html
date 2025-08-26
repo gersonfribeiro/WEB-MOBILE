@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-6">
+    <h2 mat-dialog-title>{{ isEditing ? 'Editar tarefa' : 'Cadastrar tarefa' }}</h2>
+  </div>
+
+  <div class="col-6 mt-3">
+    <mat-form-field class="inputIdTask" appearance="outline">
+      <input
+        type="text"
+        disabled
+        aria-label="Valor"
+        matInput
+        value="1"
+      />
+    </mat-form-field>
+  </div>
+</div>
+
+<mat-dialog-content class="mat-typography">
+  <app-form-tasks />
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-between">
+  <button matMiniFab mat-dialog-close class="icon-close-dialog w-25">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button matMiniFab [mat-dialog-close]="true" cdkFocusInitial class="icon-confirm-dialog w-25">
+    <mat-icon>{{ isEditing ? 'edit' : 'save' }}</mat-icon>
+  </button>
+</mat-dialog-actions>

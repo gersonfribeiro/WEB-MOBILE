@@ -1,0 +1,57 @@
+table {
+  width: 100%;
+}
+
+.info-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.data-align {
+  text-align: center;
+}
+
+.paginator {
+  border: 2px solid blue;
+  border-radius: 20px;
+}
+
+.alta {
+  background-color: #f44336;
+  color: white;
+}
+.media {
+  background-color: #ff9800;
+  color: white;
+}
+.baixa {
+  background-color: #4caf50;
+  color: white;
+}
+.prioridade {
+  background-color: #9c27b0;
+  color: white;
+}
+
+.pendente {
+  background-color: #607d8b;
+  color: white;
+}
+.em-execução {
+  background-color: #2196f3;
+  color: white;
+}
+.revisão-pendente {
+  background-color: #ffc107;
+  color: black;
+}
+.concluída {
+  background-color: #4caf50;
+  color: white;
+}
+.aprovada {
+  background-color: #009688;
+  color: white;
+}

@@ -1,0 +1,127 @@
+<mat-drawer-container class="drawer-container" hasBackdrop>
+  <mat-drawer #drawer mode="side">
+    <h3>Filtros aplicados</h3>
+
+    <div class="drawer-content">
+      @for (filtro of filtrosTask; track filtro.campo; let i = $index) {
+      <div class="row d-flex align-items-center">
+        <div class="col-8">
+          <span>{{ filtro.campo }}: {{ filtro.valor }}</span>
+        </div>
+        <div class="col-4">
+          <button
+            matMiniFab
+            aria-label="Remover Filtro"
+            type="button"
+            class="icon-delete-filter"
+            (click)="removerFiltro(i)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+
+    <button
+      matMiniFab
+      aria-label="Remover Filtro"
+      type="button"
+      class="w-100 btn-clear-all"
+      (click)="removerTodosFiltros()"
+    >
+      REMOVER TODOS OS FILTROS
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-drawer>
+
+  <div class="drawer-main-content">
+    <ng-content>
+      <div class="d-flex justify-content-center">
+        <form
+          [formGroup]="formFilter"
+          (ngSubmit)="onSubmit()"
+          class="form-filter d-flex justify-content-between"
+        >
+          <button
+            matFab
+            aria-label="Adicionar Filtro"
+            type="button"
+            class="addFilter icon-filter"
+            (click)="addFiltro()"
+          >
+            <mat-icon>filter_alt</mat-icon>
+            <mat-icon>add</mat-icon>
+          </button>
+          <button
+            matFab
+            aria-label="Adicionar Filtro"
+            type="button"
+            class="icon-filter"
+            (click)="toggle()"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+          <mat-form-field class="middle-width" appearance="outline">
+            <mat-label>Campo</mat-label>
+            <input
+              #selectCampo
+              type="text"
+              placeholder="Filtrar por"
+              aria-label="Campo"
+              matInput
+              formControlName="campo"
+              [matAutocomplete]="auto"
+              (input)="filter()"
+              (focus)="filter()"
+            />
+            <mat-autocomplete requireSelection #auto="matAutocomplete">
+              @for (option of filteredOptions; track option) {
+              <mat-option [value]="option">{{ option }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field class="middle-width" appearance="outline">
+            <mat-label>Buscar</mat-label>
+            <input
+              type="text"
+              placeholder="PENDENTE"
+              aria-label="Valor"
+              matInput
+              formControlName="valor"
+            />
+          </mat-form-field>
+
+          <button matFab aria-label="Buscar Tarefas" type="submit" class="icon-filter">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button
+            matFab
+            aria-label="Adicionar Filtro"
+            type="button"
+            class="clear-form icon-filter"
+            (click)="onClear()"
+          >
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </form>
+      </div>
+
+      <button
+        matMiniFab
+        aria-label="Abrir dialog do form das tasks"
+        type="button"
+        class="icon-dialog-form-tasks"
+        (click)="openDialogFormTasks()"
+      >
+        <mat-icon>add_circle</mat-icon>
+      </button>
+
+      <app-list-tasks />
+      <app-snackbar-alerts #alerts />
+    </ng-content>
+  </div>
+</mat-drawer-container>
+<app-dialog-form-tasks #dialogFormTasks/>

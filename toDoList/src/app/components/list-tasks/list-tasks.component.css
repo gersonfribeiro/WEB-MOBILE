@@ -9,6 +9,7 @@ table {
   align-items: center;
   text-align: center;
 }
+
 .data-align {
   text-align: center;
 }
@@ -19,39 +20,46 @@ table {
 }
 
 .alta {
-  background-color: #f44336;
-  color: white;
+  text-align: center;
+  color: #f44336;
 }
+
 .media {
-  background-color: #ff9800;
-  color: white;
+  text-align: center;
+  color: #ff9800;
 }
+
 .baixa {
-  background-color: #4caf50;
-  color: white;
+  text-align: center;
+  color: #4caf50;
 }
+
 .prioridade {
-  background-color: #9c27b0;
-  color: white;
+  text-align: center;
+  color: #9c27b0;
 }
 
 .pendente {
-  background-color: #607d8b;
-  color: white;
+  text-align: center;
+  color: #607d8b;
 }
+
 .em-execução {
-  background-color: #2196f3;
-  color: white;
+  text-align: center;
+  color: #2196f3;
 }
+
 .revisão-pendente {
-  background-color: #ffc107;
-  color: black;
+  text-align: center;
+  color: #ffc107;
 }
+
 .concluída {
-  background-color: #4caf50;
-  color: white;
+  text-align: center;
+  color: #4caf50;
 }
+
 .aprovada {
-  background-color: #009688;
-  color: white;
+  text-align: center;
+  color: #009688;
 }

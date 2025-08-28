@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-snackbar-alerts',
-  imports: [MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule],
+  imports: [MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule, CommonModule],
   templateUrl: './snackbar-alerts.component.html',
   styleUrl: './snackbar-alerts.component.css',
 })
@@ -15,12 +15,12 @@ export class SnackbarAlertsComponent {
   private _snackBar = inject(MatSnackBar);
   durationInSeconds = 5;
 
-  openSnackBar(mensagem: string, typeSnackbar: string, action?: string) {
+  openSnackBar(mensagem: string, type: string, icon?: string) {
     this._snackBar.openFromComponent(SnackbarAlertComponent, {
       horizontalPosition: 'right',
       verticalPosition: 'top',
       duration: this.durationInSeconds * 1000,
-      data: { mensagem, typeSnackbar, action }
+      data: { mensagem, type, icon }
     });
   }
 }
@@ -31,17 +31,17 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-snackbar-alert',
-  imports: [CommonModule, MatButtonModule, MatIconModule,],
+  imports: [CommonModule, MatButtonModule, MatIconModule, CommonModule],
   templateUrl: './snackbar-alert.component.html',
   styleUrl: './snackbar-alerts.component.css',
 })
 export class SnackbarAlertComponent {
   constructor(
     public snackBarRef: MatSnackBarRef<SnackbarAlertComponent>,
-    @Inject(MAT_SNACK_BAR_DATA) public data: { mensagem: string; type: string, action?: string }
-  ) {}
+    @Inject(MAT_SNACK_BAR_DATA) public data: { mensagem: string; type: string, icon?: string }
+  ) { }
 
-  onActionClick() {
+  onIconClick() {
     this.snackBarRef.dismiss();
   }
 }

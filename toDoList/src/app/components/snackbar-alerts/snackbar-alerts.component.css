@@ -5,12 +5,15 @@ mat-form-field {
 .success {
   color: green;
 }
+
 .error {
   color: red;
 }
+
 .info {
   color: blue;
 }
+
 .warning {
   color: orange;
 }

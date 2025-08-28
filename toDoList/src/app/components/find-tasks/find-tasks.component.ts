@@ -42,7 +42,7 @@ export class FindTasksComponent {
 
   @ViewChild('selectCampo') selectCampo: ElementRef<HTMLInputElement> | undefined;
   options: string[] = ['ID', 'URGÊNCIA', 'STATUS', 'RESPONSAVEL', 'TÍTULO', 'PREVISÃO DE ENTREGA'];
-  filteredOptions: string[]  | undefined;
+  filteredOptions: string[] | undefined;
 
   constructor(private fb: FormBuilder) {
     this.formFilter = this.fb.group({
@@ -66,7 +66,7 @@ export class FindTasksComponent {
         filtro.valor.toUpperCase() === this.formFilter.value.valor.toUpperCase()
     );
     if (filtroExistente) {
-      this.emitirAlerta('Filtro já adicionado!', 'error', 'Fechar');
+      this.emitirAlerta('Filtro já adicionado!', 'error', 'close');
       return;
     } else {
       this.formFilter.value.campo = this.formFilter.value.campo.toUpperCase();
@@ -106,8 +106,8 @@ export class FindTasksComponent {
 
   @ViewChild(SnackbarAlertsComponent) alertsComponent!: SnackbarAlertsComponent;
 
-  emitirAlerta(mensagem: string, type: string, action: string) {
-    this.alertsComponent.openSnackBar(mensagem, type, action);
+  emitirAlerta(mensagem: string, type: string, icon: string) {
+    this.alertsComponent.openSnackBar(mensagem, type, icon);
   }
 
   @ViewChild(DialogFormTasksComponent) dialogFormTasks!: DialogFormTasksComponent;

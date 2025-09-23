@@ -1,0 +1,26 @@
+<h3>Filtros aplicados</h3>
+
+<div class="drawer-content">
+@for (filtro of filtros; track filtro.campo; let i = $index) {
+<div class="row d-flex align-items-center mb-2">
+    <div class="col-8">
+    <span>{{ filtro.campo }}: {{ filtro.valor }}</span>
+    </div>
+    <div class="col-4">
+    <button matMiniFab aria-label="Remover Filtro" type="button" class="icon-delete-filter" (click)="removeFilter.emit(i)">
+        <mat-icon>delete</mat-icon>
+    </button>
+    </div>
+</div>
+}
+@if(filtros.length === 0) {
+    <p class="text-muted">Nenhum filtro aplicado.</p>
+}
+</div>
+
+@if(filtros.length > 0) {
+<button mat-raised-button type="button" class="w-100 btn-clear-all mt-auto" (click)="removeAllFilters.emit()">
+    REMOVER TODOS OS FILTROS
+    <mat-icon>delete_sweep</mat-icon>
+</button>
+}

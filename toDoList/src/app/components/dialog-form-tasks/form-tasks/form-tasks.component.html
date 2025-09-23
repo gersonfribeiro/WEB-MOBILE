@@ -71,30 +71,30 @@
       <div class="col-12 mt-3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Previsão de entrega</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="previsaoEntrega"/>
+          <input matInput [matDatepicker]="pickerPrevEntrega" formControlName="previsaoEntrega"/>
           <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle matIconSuffix [for]="pickerPrevEntrega"></mat-datepicker-toggle>
+          <mat-datepicker #pickerPrevEntrega></mat-datepicker>
         </mat-form-field>
       </div>
 
       <div class="col-6 mt-3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Data de inicio</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="dataInicio"/>
+          <input matInput [matDatepicker]="pickerIni" formControlName="dataInicio"/>
           <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle matIconSuffix [for]="pickerIni"></mat-datepicker-toggle>
+          <mat-datepicker #pickerIni></mat-datepicker>
         </mat-form-field>
       </div>
 
       <div class="col-6 mt-3">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Data de entrega</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="dataEntrega"/>
+          <input matInput [matDatepicker]="pickerEntrega" formControlName="dataEntrega"/>
           <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle matIconSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEntrega></mat-datepicker>
         </mat-form-field>
       </div>
     </div>

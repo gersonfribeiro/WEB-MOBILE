@@ -1,0 +1,41 @@
+<form [formGroup]="formFilter" (ngSubmit)="search.emit()">
+    <mat-toolbar class="toolbar">
+        <button matMiniFab type="button" class="base-icon" (click)="toggleDrawer.emit()">
+            <mat-icon>visibility</mat-icon>
+        </button>
+        <span>Filtrar tarefas</span>
+
+        <span class="toolbar-spacer"></span>
+
+        <button matMiniFab aria-label="Adicionar Filtro" type="button" class="base-icon addFilter" (click)="addFilter.emit()">
+            <mat-icon>filter_alt</mat-icon>
+        </button>
+
+        <mat-form-field class="middle-width" appearance="outline">
+            <mat-label>Campo</mat-label>
+            <input #selectCampo type="text" placeholder="Filtrar por" aria-label="Campo" matInput formControlName="campo" [matAutocomplete]="auto" (input)="onFilterOptions(selectCampo.value)" (focus)="onFilterOptions(selectCampo.value)" />
+            <mat-autocomplete requireSelection #auto="matAutocomplete">
+                @for (option of filteredOptions; track option) {
+                    <mat-option [value]="option">{{ option }}</mat-option>
+                }
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="middle-width" appearance="outline">
+            <mat-label>Buscar</mat-label>
+            <input type="text" placeholder="PENDENTE" aria-label="Valor" matInput formControlName="valor" />
+        </mat-form-field>
+
+        <button matMiniFab aria-label="Buscar Tarefas" type="submit" class="base-icon">
+            <mat-icon>search</mat-icon>
+        </button>
+
+        <button matMiniFab aria-label="Limpar filtro" type="button" class="base-icon clear-form" (click)="clearForm.emit()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+
+        <button matMiniFab aria-label="Abrir dialog do form das tasks" type="button" class="base-icon icon-dialog-form-tasks" (click)="openNewTaskDialog.emit()">
+            <mat-icon>add_circle</mat-icon>
+        </button>
+    </mat-toolbar>
+</form>

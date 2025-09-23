@@ -5,7 +5,7 @@
 ---
 
 <details>
-  <summary><h2>📌 Atividade 1: Lista de Métodos de Array - <em>Diretório: ArrayMethod</em></h2></summary>
+  <summary><h2>📌 Atv. 1: Lista de Métodos de Array - <em>Dir.: ArrayMethod</em></h2></summary>
 
 ## 🛠 Manipulação de Arrays em TypeScript
 
@@ -152,5 +152,65 @@ Executar o arquivo transpilado
 ```cmd
 node ArrayMethods.js
 ```
+
+</details>
+
+<details>
+  <summary><h2>📌 Atv. 2: Projeto lista de tarefas - <em>Dir.: toDoList</em></h2></summary>
+
+## 🛠 Proposta do projeto
+
+Este projeto demonstra o uso prático de diversos **conceitos** no Angular.  
+O objetivo é apresentar exemplos claros de como usar os recursos de **ciclo de vida do componente**, **comunicações entre componentes pais e filhos**, **criação de componentes com o angular material** entre diversas funcionalidades de manipulação de dados de uma lista.
+
+---
+
+### 📋 Estrutura dos Dados
+
+O tipo `toDoModel` define a estrutura de cada task:
+
+```typescript
+export interface toDoModel {
+    id: number;
+    
+}
+```
+
+## 🔭 Componentes e suas comunicações
+
+### 🧩 Componentes criados e relacionados
+
+<table>
+  <thead>
+    <tr>
+      <th>SELETOR</th>
+      <th>RESPONSABILIDADE</th>
+      <th>PAI</th>
+      <th>RELACIONAMENTOS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>app-</td>
+      <td></td>
+      <td>app-</td>
+      <td>app- (pai), app- (filho)</td>
+    </tr>
+  </tbody>
+</table>
+
+### 🧩 Funcionalidades Implementadas
+
+#### ● Function1️⃣ filtrar tarefas 
+▶Um componente apenas para servir de filtro de busca das tarefas da lista. Os filtros são aplicados por campo e valor, além de terem as opções de adicionar filtro (é uma lista) resetar os campos do formulário, consultar e visualizar os filtros aplicados.
+
+#### ● Function2️⃣ visualizarfiltros
+▶Não é um componente separado, é parte do filtro de tarefas, um Drawer para visualizar os filtros aplicados com a funcionalidade de remover um específico ou todos os filtros aplicados.
+
+#### ● Function3️⃣ lista estilizada dinamicamente e paginada das tarefas
+▶A tabela de visualização das tarefas está com alguns campos tendo uma certa estilização baseada em valores dinâmicos (status e urgência), além de ter uma paginação para a exibição por quantidade de registros.
+
+#### ● Function4️⃣ formulário de criação e edição das tarefas
+▶Uma caixa Dialog para abrir o formulário de criação de tasks, caso seja um edição, o formulário é populado com os dados da task sendo editada, ao submeter o formulário se mantém aberto, limpo e em modo de cadastro.
 
 </details>

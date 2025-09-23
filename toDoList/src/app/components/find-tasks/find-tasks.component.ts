@@ -1,118 +1,115 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { ListTasksComponent } from '../list-tasks/list-tasks.component';
-import { SnackbarAlertsComponent } from "../snackbar-alerts/snackbar-alerts.component";
-import { DialogFormTasksComponent } from "../dialog-form-tasks/dialog-form-tasks.component";
-
-interface filtrosTask {
-  campo: string;
-  valor: string;
-}
+import { SnackbarAlertsComponent } from '../snackbar-alerts/snackbar-alerts.component';
+import { DialogFormTasksComponent } from '../dialog-form-tasks/dialog-form-tasks.component';
+import { filtrosTask } from '../../models/modelFiltros';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { DrawerComponent } from '../drawer/drawer.component';
 
 @Component({
-  selector: 'app-find-tasks',
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatSidenavModule,
-    ReactiveFormsModule,
+    selector: 'app-find-tasks',
+    standalone: true,
+    imports: [
     CommonModule,
+    MatSidenavModule,
+    FormsModule,
+    ReactiveFormsModule,
     ListTasksComponent,
     SnackbarAlertsComponent,
-    DialogFormTasksComponent
-  ],
-  templateUrl: './find-tasks.component.html',
-  styleUrl: './find-tasks.component.css',
+    DialogFormTasksComponent,
+    SearchBarComponent,
+    DrawerComponent,
+],
+    templateUrl: './find-tasks.component.html',
+    styleUrl: './find-tasks.component.css',
 })
 export class FindTasksComponent {
-  formFilter: FormGroup;
+    formFilter: FormGroup;
+    options: string[] = [
+        'ID',
+        'URGÊNCIA',
+        'STATUS',
+        'RESPONSAVEL',
+        'TÍTULO',
+        'PREVISÃO DE ENTREGA',
+    ];
+    filteredOptions: string[] | undefined;
+    filtrosTask: filtrosTask[] = [];
 
-  @ViewChild('selectCampo') selectCampo: ElementRef<HTMLInputElement> | undefined;
-  options: string[] = ['ID', 'URGÊNCIA', 'STATUS', 'RESPONSAVEL', 'TÍTULO', 'PREVISÃO DE ENTREGA'];
-  filteredOptions: string[]  | undefined;
+    @ViewChild('drawer') drawer!: MatSidenav;
+    @ViewChild(SnackbarAlertsComponent) alertsComponent!: SnackbarAlertsComponent;
+    @ViewChild(DialogFormTasksComponent) dialogFormTasks!: DialogFormTasksComponent;
 
-  constructor(private fb: FormBuilder) {
-    this.formFilter = this.fb.group({
-      campo: ['STATUS'],
-      valor: ['PENDENTE'],
-    });
-    this.filteredOptions = this.options.slice();
-  }
-
-  filter(): void {
-    const filterValue = this.selectCampo?.nativeElement.value.toUpperCase() ?? 'STATUS';
-    this.filteredOptions = this.options.filter(o => o.toUpperCase().includes(filterValue));
-  }
-
-  filtrosTask: filtrosTask[] = [];
-
-  addFiltro() {
-    const filtroExistente = this.filtrosTask.find(
-      (filtro) =>
-        filtro.campo.toUpperCase() === this.formFilter.value.campo.toUpperCase() &&
-        filtro.valor.toUpperCase() === this.formFilter.value.valor.toUpperCase()
-    );
-    if (filtroExistente) {
-      this.emitirAlerta('Filtro já adicionado!', 'error', 'Fechar');
-      return;
-    } else {
-      this.formFilter.value.campo = this.formFilter.value.campo.toUpperCase();
-      this.formFilter.value.valor = this.formFilter.value.valor.toUpperCase();
-      this.filtrosTask.push(this.formFilter.value);
-      this.onClear();
+    constructor(private fb: FormBuilder) {
+        this.formFilter = this.fb.group({
+            campo: ['STATUS'],
+            valor: ['PENDENTE'],
+        });
+        this.filteredOptions = this.options.slice();
     }
-  }
 
-  onClear(): void {
-    this.formFilter.reset({
-      campo: 'STATUS',
-      valor: 'PENDENTE',
-    });
-  }
+    handleFilterOptions(filterValue: string): void {
+        const upperCaseFilter = filterValue.toUpperCase();
+        this.filteredOptions = this.options.filter((o) =>
+            o.toUpperCase().includes(upperCaseFilter)
+        );
+    }
 
-  onSubmit() {
-    if (this.filtrosTask.length > 0) console.log('Filtros enviados:', this.filtrosTask);
-    else console.log('Filtros enviados:', this.formFilter.value);
-  }
+    handleAddFiltro() {
+        const novoFiltro = this.formFilter.getRawValue();
+        novoFiltro.campo = novoFiltro.campo.toUpperCase();
+        novoFiltro.valor = novoFiltro.valor.toUpperCase();
 
-  @ViewChild('drawer') drawer!: MatSidenav;
+        const filtroExistente = this.filtrosTask.find(
+            (f) => f.campo === novoFiltro.campo && f.valor === novoFiltro.valor
+        );
 
-  removerFiltro(index: number) {
-    console.log('index a remover: ', [index, this.filtrosTask[index]]);
-    this.filtrosTask.slice(index, 1);
-    console.log(this.filtrosTask);
-  }
+        if (filtroExistente) {
+            this.emitirAlerta('Esse filtro já foi adicionado!', 'error', 'close');
+            return;
+        }
+        this.filtrosTask.push(novoFiltro);
+        this.handleClearForm();
+        this.emitirAlerta('Novo filtro adicionado!', 'info', 'close');
+    }
 
-  removerTodosFiltros() {
-    this.filtrosTask = [];
-  }
+    handleClearForm(): void {
+        this.formFilter.reset({
+            campo: 'STATUS',
+            valor: 'PENDENTE',
+        });
+    }
 
-  toggle() {
-    this.drawer.toggle();
-  }
+    handleSearch() {
+        if (this.filtrosTask.length > 0) {
+            console.log('Filtros enviados:', this.filtrosTask);
+        } else {
+            console.log('Filtro único enviado:', this.formFilter.value);
+        }
+    }
 
-  @ViewChild(SnackbarAlertsComponent) alertsComponent!: SnackbarAlertsComponent;
+    handleRemoveFilter(index: number) {
+        this.filtrosTask.splice(index, 1);
+        this.emitirAlerta('Filtro removido!', 'success', 'close');
+    }
 
-  emitirAlerta(mensagem: string, type: string, action: string) {
-    this.alertsComponent.openSnackBar(mensagem, type, action);
-  }
+    handleRemoveAllFilters() {
+        this.filtrosTask = [];
+        this.emitirAlerta('Lista de filtros limpa!', 'success', 'close');
+    }
 
-  @ViewChild(DialogFormTasksComponent) dialogFormTasks!: DialogFormTasksComponent;
+    handleToggleDrawer() {
+        this.drawer.toggle();
+    }
 
-  openDialogFormTasks() {
-    this.dialogFormTasks.openDialog();
-  }
+    handleOpenNewTaskDialog() {
+        this.dialogFormTasks.openDialog();
+    }
+
+    emitirAlerta(mensagem: string, type: string, icon: string) {
+        this.alertsComponent.openSnackBar(mensagem, type, icon);
+    }
 }

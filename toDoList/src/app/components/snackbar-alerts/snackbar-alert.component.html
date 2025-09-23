@@ -6,8 +6,10 @@
   </div>
 
   <div>
-    @if(data.action) {
-      <button matMiniFab (click)="onActionClick()">{{ data.action }}</button>
+    @if(data.icon) {
+      <button matMiniFab (click)="onActionClick()">
+        <mat-icon>{{ data.icon || 'close' }}</mat-icon>
+    </button>
     }
   </div>
 </div>

@@ -15,12 +15,12 @@ export class SnackbarAlertsComponent {
   private _snackBar = inject(MatSnackBar);
   durationInSeconds = 5;
 
-  openSnackBar(mensagem: string, typeSnackbar: string, action?: string) {
+  openSnackBar(mensagem: string, type: string, icon: string) {
     this._snackBar.openFromComponent(SnackbarAlertComponent, {
       horizontalPosition: 'right',
       verticalPosition: 'top',
       duration: this.durationInSeconds * 1000,
-      data: { mensagem, typeSnackbar, action }
+      data: { mensagem, type, icon }
     });
   }
 }
@@ -38,7 +38,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class SnackbarAlertComponent {
   constructor(
     public snackBarRef: MatSnackBarRef<SnackbarAlertComponent>,
-    @Inject(MAT_SNACK_BAR_DATA) public data: { mensagem: string; type: string, action?: string }
+    @Inject(MAT_SNACK_BAR_DATA) public data: { mensagem: string; type: string, icon: string }
   ) {}
 
   onActionClick() {

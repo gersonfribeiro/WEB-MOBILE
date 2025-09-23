@@ -1,0 +1,31 @@
+.icon-delete-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 200, 200);
+  color: red;
+}
+
+mat-drawer-container {
+  height: 100vh;
+  width: 100%;
+  background-color: bisque;
+}
+
+mat-drawer {
+  width: 300px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-content {
+  padding: 16px;
+}
+
+.btn-clear-all {
+  background-color: rgb(255, 200, 200);
+  color: red;
+  width: 100%;
+  margin-top: auto;
+}

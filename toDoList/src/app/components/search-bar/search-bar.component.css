@@ -1,0 +1,35 @@
+.toolbar {
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid black;
+  height: 100px;
+  gap: 12px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.base-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.middle-width {
+  width: 200px;
+}
+
+.addFilter {
+  background-color: rgb(162, 219, 162);
+  color: green;
+}
+
+.clear-form {
+  background-color: rgb(241, 192, 128);
+  color: rgb(255, 34, 0);
+}
+
+.icon-dialog-form-tasks {
+  background-color: rgb(162, 219, 162);
+  color: green;
+}

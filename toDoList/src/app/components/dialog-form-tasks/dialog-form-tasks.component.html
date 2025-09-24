@@ -1,0 +1,7 @@
+<mat-dialog-content class="mat-typography">
+    <app-form-tasks
+        [taskToEdit]="task"
+        (formSubmitted)="onFormSubmit($event)"
+        (cancel)="onCancel()"
+    ></app-form-tasks>
+</mat-dialog-content>

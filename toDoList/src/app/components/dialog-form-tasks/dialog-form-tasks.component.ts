@@ -1,37 +1,41 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormTasksComponent } from './form-tasks/form-tasks.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { toDoModel } from '../../toDoModel';
 
-@Component({
-  selector: 'app-dialog-form-tasks',
-  imports: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dialog-form-tasks.component.html',
-  styleUrl: './dialog-form-tasks.component.css',
-})
-export class DialogFormTasksComponent {
-  readonly dialog = inject(MatDialog);
-
-  openDialog() {
-    const dialogRef = this.dialog.open(DialogFormTaskComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
+export interface DialogData {
+    isEditing: boolean;
+    task: toDoModel;
 }
 
 @Component({
-  selector: 'app-dialog-form-tasks',
-  imports: [MatDialogModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, FormTasksComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dialog-form-task.component.html',
-  styleUrl: './dialog-form-tasks.component.css',
+    selector: 'app-dialog-form-tasks',
+    standalone: true,
+    imports: [
+        MatDialogModule,
+        FormTasksComponent
+    ],
+    templateUrl: './dialog-form-tasks.component.html',
+    styleUrl: './dialog-form-tasks.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogFormTaskComponent {
-  isEditing: boolean = false;
+export class DialogFormTasksComponent {
+    isEditing: boolean;
+    task: toDoModel | null;
+
+    constructor(
+        public dialogRef: MatDialogRef<DialogFormTasksComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: DialogData
+    ) {
+        this.isEditing = data.isEditing;
+        this.task = data.task;
+    }
+
+    onFormSubmit(formData: toDoModel) {
+        this.dialogRef.close(formData);
+    }
+
+    onCancel(): void {
+        this.dialogRef.close();
+    }
 }

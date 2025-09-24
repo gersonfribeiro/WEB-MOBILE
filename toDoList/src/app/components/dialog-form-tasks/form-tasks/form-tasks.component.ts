@@ -1,67 +1,99 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    signal,
+    SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { funcionarios } from '../../../toDoData';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { toDoModel } from '../../../toDoModel';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogActions } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-form-tasks',
-  imports: [
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatSelectModule,
-  ],
-  templateUrl: './form-tasks.component.html',
-  styleUrl: './form-tasks.component.css',
-  providers: [provideNativeDateAdapter()],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-form-tasks',
+    imports: [
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        CommonModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDialogActions,
+    ],
+    templateUrl: './form-tasks.component.html',
+    styleUrl: './form-tasks.component.css',
+    providers: [provideNativeDateAdapter()],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormTasksComponent {
-  protected readonly valueTituto = signal('');
-  protected readonly valueDescricao = signal('');
-  formTask: FormGroup;
-  funcionarios: string[] = funcionarios;
-  optionsUrgencias: string[] = ['BAIXA', 'MEDIA', 'ALTA', 'PRIORIDADE'];
-  optionsStatus: string[] = [
-    'PENDENTE',
-    'EM EXECUÇÃO',
-    'REVISÃO PENDENTE',
-    'CONCLUÍDA',
-    'APROVADA',
-    'CANCELADA',
-  ];
+export class FormTasksComponent implements OnChanges {
+    @Input() taskToEdit: toDoModel | null = null;
+    @Output() formSubmitted = new EventEmitter<toDoModel>();
+    @Output() cancel = new EventEmitter<void>();
 
-  constructor(private fb: FormBuilder) {
-    this.formTask = this.fb.group({
-      responsaveis: this.fb.control<string[]>([]),
-      urgencia: [''],
-      status: [''],
-      titulo: [''],
-      descricao: [''],
-      previsaoEntrega: [''],
-      dataInicio: [''],
-      dataEntrega: [''],
-    });
-  }
+    protected readonly valueTituto = signal('');
+    protected readonly valueDescricao = signal('');
+    formTask: FormGroup;
+    funcionarios: string[] = funcionarios;
+    optionsUrgencias: string[] = ['BAIXA', 'MEDIA', 'ALTA', 'PRIORIDADE'];
+    optionsStatus: string[] = [
+        'PENDENTE',
+        'EM EXECUÇÃO',
+        'REVISÃO PENDENTE',
+        'CONCLUÍDA',
+        'APROVADA',
+        'CANCELADA',
+    ];
 
-  get responsaveisSelecionados(): string[] {
-    return this.formTask.get('responsaveis')?.value || [];
-  }
+    constructor(private fb: FormBuilder) {
+        this.formTask = this.fb.group({
+            responsaveis: this.fb.control<string[]>([]),
+            urgencia: [''],
+            status: [''],
+            titulo: [''],
+            descricao: [''],
+            previsaoEntrega: [''],
+            dataInicio: [''],
+            dataEntrega: [''],
+        });
+    }
 
-  protected onInputTitulo(event: Event) {
-    this.valueTituto.set((event.target as HTMLInputElement).value);
-  }
+    get responsaveisSelecionados(): string[] {
+        return this.formTask.get('responsaveis')?.value || [];
+    }
 
-  protected onInputDescricao(event: Event) {
-    this.valueDescricao.set((event.target as HTMLInputElement).value);
-  }
+    protected onInputTitulo(event: Event) {
+        this.valueTituto.set((event.target as HTMLInputElement).value);
+    }
 
-  onSubmit() {}
+    protected onInputDescricao(event: Event) {
+        this.valueDescricao.set((event.target as HTMLInputElement).value);
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['taskToEdit'] && this.taskToEdit) {
+            this.formTask.patchValue(this.taskToEdit);
+        }
+    }
+
+    onSubmit() {
+        if (this.formTask.valid) {
+            this.formSubmitted.emit(this.formTask.value);
+        } else {
+            this.formTask.markAllAsTouched();
+        }
+    }
 }

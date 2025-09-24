@@ -8,25 +8,28 @@ import { DialogFormTasksComponent } from '../dialog-form-tasks/dialog-form-tasks
 import { filtrosTask } from '../../models/modelFiltros';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { DrawerComponent } from '../drawer/drawer.component';
+import { toDoData } from '../../toDoData';
+import { toDoModel } from '../../toDoModel';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-find-tasks',
     standalone: true,
     imports: [
-    CommonModule,
-    MatSidenavModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ListTasksComponent,
-    SnackbarAlertsComponent,
-    DialogFormTasksComponent,
-    SearchBarComponent,
-    DrawerComponent,
-],
+        CommonModule,
+        MatSidenavModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ListTasksComponent,
+        SnackbarAlertsComponent,
+        SearchBarComponent,
+        DrawerComponent,
+    ],
     templateUrl: './find-tasks.component.html',
     styleUrl: './find-tasks.component.css',
 })
 export class FindTasksComponent {
+    tasks = toDoData;
     formFilter: FormGroup;
     options: string[] = [
         'ID',
@@ -41,9 +44,8 @@ export class FindTasksComponent {
 
     @ViewChild('drawer') drawer!: MatSidenav;
     @ViewChild(SnackbarAlertsComponent) alertsComponent!: SnackbarAlertsComponent;
-    @ViewChild(DialogFormTasksComponent) dialogFormTasks!: DialogFormTasksComponent;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, public dialog: MatDialog) {
         this.formFilter = this.fb.group({
             campo: ['STATUS'],
             valor: ['PENDENTE'],
@@ -105,8 +107,41 @@ export class FindTasksComponent {
         this.drawer.toggle();
     }
 
-    handleOpenNewTaskDialog() {
-        this.dialogFormTasks.openDialog();
+    handleOpenNewTaskDialog(): void {
+        const dialogRef = this.dialog.open(DialogFormTasksComponent, {
+            width: '800px',
+            data: { isEditing: false, task: null },
+        });
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+            if (result) {
+                this.emitirAlerta('Tarefa criada com sucesso!', 'success', 'check');
+            }
+        });
+    }
+
+    handleEditTaskDialog(task: toDoModel): void {
+        const dialogRef = this.dialog.open(DialogFormTasksComponent, {
+            width: '800px',
+            data: { isEditing: true, task: task }, // Envia a tarefa para edição
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                const index = this.tasks.findIndex((t) => t.id === result.id);
+                if (index !== -1) {
+                    this.tasks[index] = result;
+                    this.tasks = [...this.tasks];
+                    this.emitirAlerta('Tarefa atualizada com sucesso!', 'success', 'check');
+                }
+            }
+        });
+    }
+
+    handleDeleteTask(index: number) {
+        this.tasks.splice(index, 1);
+        this.tasks = [...this.tasks];
+        this.emitirAlerta('Tarefa removida!', 'success', 'close');
     }
 
     emitirAlerta(mensagem: string, type: string, icon: string) {

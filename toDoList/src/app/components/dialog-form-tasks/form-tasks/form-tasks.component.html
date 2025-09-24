@@ -1,102 +1,151 @@
 <div>
-  <form [formGroup]="formTask" (ngSubmit)="onSubmit()">
-    <div class="example-container row">
-      <div class="col-12">
-        <mat-form-field hintLabel="Max 20 characters" appearance="outline" class="w-100">
-          <mat-label>Título da tarefa</mat-label>
-          <input
-            matInput
-            #input
-            maxlength="20"
-            placeholder="Título da tarefa"
-            (input)="onInputTitulo($event)"
-            formControlName="titulo"
-          />
-          <mat-hint align="end">{{ valueTituto().length }}/20</mat-hint>
-        </mat-form-field>
-      </div>
+    <div class="row mb-5">
+        <div class="col-6">
+            <h2 mat-dialog-title>{{ taskToEdit ? 'Editar tarefa' : 'Nova tarefa' }}</h2>
+        </div>
 
-      <div class="col-6 mt-3">
-        <mat-form-field hintLabel="Urgência da tarefa" appearance="outline" class="w-100">
-          <mat-label>Urgência</mat-label>
-          <mat-select formControlName="urgencia">
-            @for (urgencia of optionsUrgencias; track optionsUrgencias) {
-              <mat-option [value]="urgencia">{{ urgencia }}</mat-option>
-            }
-          </mat-select>
-          <mat-hint align="end">^</mat-hint>
-        </mat-form-field>
-      </div>
-
-      <div class="col-6 mt-3">
-        <mat-form-field hintLabel="Status da tarefa" appearance="outline" class="w-100">
-          <mat-label>Status</mat-label>
-          <mat-select formControlName="status">
-            @for (status of optionsStatus; track optionsStatus) {
-            <mat-option [value]="status">{{ status }}</mat-option>
-            }
-          </mat-select>
-          <mat-hint align="end">^</mat-hint>
-        </mat-form-field>
-      </div>
-
-      <div class="col-12 mt-3">
-        <mat-form-field hintLabel="Selecione os responsáveis pela tarefa" appearance="outline" class="w-100">
-          <mat-label>Responsáveis</mat-label>
-          <mat-select formControlName="responsaveis" multiple>
-            <mat-select-trigger>
-              {{ responsaveisSelecionados[0] || '' }}
-              <span *ngIf="responsaveisSelecionados.length > 1" class="example-additional-selection">
-                (+{{ responsaveisSelecionados.length - 1 }}
-                {{ responsaveisSelecionados.length === 2 ? 'outro' : 'outros' }})
-              </span>
-            </mat-select-trigger>
-
-            @for (topping of funcionarios; track topping) {
-            <mat-option [value]="topping">{{ topping }}</mat-option>
-            }
-          </mat-select>
-          <mat-hint align="end">^</mat-hint>
-        </mat-form-field>
-      </div>
-
-      <div class="col-12 mt-3">
-        <mat-form-field hintLabel="Descreva a tarefa" appearance="outline" class="w-100">
-          <mat-label>Descrição da tarefa</mat-label>
-          <textarea matInput maxlength="500" placeholder="Descrição da tarefa" (input)="onInputDescricao($event)" formControlName="descricao"></textarea>
-          <mat-hint align="end">{{ valueDescricao().length }}/500</mat-hint>
-        </mat-form-field>
-      </div>
-
-      <div class="col-12 mt-3">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Previsão de entrega</mat-label>
-          <input matInput [matDatepicker]="pickerPrevEntrega" formControlName="previsaoEntrega"/>
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="pickerPrevEntrega"></mat-datepicker-toggle>
-          <mat-datepicker #pickerPrevEntrega></mat-datepicker>
-        </mat-form-field>
-      </div>
-
-      <div class="col-6 mt-3">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Data de inicio</mat-label>
-          <input matInput [matDatepicker]="pickerIni" formControlName="dataInicio"/>
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="pickerIni"></mat-datepicker-toggle>
-          <mat-datepicker #pickerIni></mat-datepicker>
-        </mat-form-field>
-      </div>
-
-      <div class="col-6 mt-3">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Data de entrega</mat-label>
-          <input matInput [matDatepicker]="pickerEntrega" formControlName="dataEntrega"/>
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
-          <mat-datepicker #pickerEntrega></mat-datepicker>
-        </mat-form-field>
-      </div>
+        <div class="col-6">
+            <mat-form-field class="inputIdTask" appearance="outline">
+                <input
+                    type="text"
+                    [disabled]="true"
+                    aria-label="Valor"
+                    matInput
+                    [value]="taskToEdit?.id || 0"
+                />
+            </mat-form-field>
+        </div>
     </div>
-  </form>
+    <form [formGroup]="formTask" (ngSubmit)="onSubmit()">
+        <div class="example-container row">
+            <div class="col-12">
+                <mat-form-field hintLabel="Max 20 characters" appearance="outline" class="w-100">
+                    <mat-label>Título da tarefa</mat-label>
+                    <input
+                        matInput
+                        #input
+                        maxlength="20"
+                        placeholder="Título da tarefa"
+                        (input)="onInputTitulo($event)"
+                        formControlName="titulo"
+                    />
+                    <mat-hint align="end">{{ valueTituto().length }}/20</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6 mt-3">
+                <mat-form-field hintLabel="Urgência da tarefa" appearance="outline" class="w-100">
+                    <mat-label>Urgência</mat-label>
+                    <mat-select formControlName="urgencia">
+                        @for (urgencia of optionsUrgencias; track optionsUrgencias) {
+                        <mat-option [value]="urgencia">{{ urgencia }}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-hint align="end">^</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6 mt-3">
+                <mat-form-field hintLabel="Status da tarefa" appearance="outline" class="w-100">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status">
+                        @for (status of optionsStatus; track optionsStatus) {
+                        <mat-option [value]="status">{{ status }}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-hint align="end">^</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 mt-3">
+                <mat-form-field
+                    hintLabel="Selecione os responsáveis pela tarefa"
+                    appearance="outline"
+                    class="w-100"
+                >
+                    <mat-label>Responsáveis</mat-label>
+                    <mat-select formControlName="responsaveis" multiple>
+                        <mat-select-trigger>
+                            {{ responsaveisSelecionados[0] || '' }}
+                            <span
+                                *ngIf="responsaveisSelecionados.length > 1"
+                                class="example-additional-selection"
+                            >
+                                (+{{ responsaveisSelecionados.length - 1 }}
+                                {{ responsaveisSelecionados.length === 2 ? 'outro' : 'outros' }})
+                            </span>
+                        </mat-select-trigger>
+
+                        @for (topping of funcionarios; track topping) {
+                        <mat-option [value]="topping">{{ topping }}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-hint align="end">^</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 mt-3">
+                <mat-form-field hintLabel="Descreva a tarefa" appearance="outline" class="w-100">
+                    <mat-label>Descrição da tarefa</mat-label>
+                    <textarea
+                        matInput
+                        maxlength="500"
+                        placeholder="Descrição da tarefa"
+                        (input)="onInputDescricao($event)"
+                        formControlName="descricao"
+                    ></textarea>
+                    <mat-hint align="end">{{ valueDescricao().length }}/500</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 mt-3">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Previsão de entrega</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="pickerPrevEntrega"
+                        formControlName="previsaoEntrega"
+                    />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="pickerPrevEntrega"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerPrevEntrega></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6 mt-3">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Data de inicio</mat-label>
+                    <input matInput [matDatepicker]="pickerIni" formControlName="dataInicio" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerIni"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerIni></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-6 mt-3">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Data de entrega</mat-label>
+                    <input matInput [matDatepicker]="pickerEntrega" formControlName="dataEntrega" />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="pickerEntrega"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEntrega></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-dialog-actions class="d-flex justify-content-between mt-4">
+            <button mat-mini-fab type="button" (click)="cancel.emit()" class="icon-close-dialog w-25">
+                <mat-icon>close</mat-icon>
+            </button>
+            <button mat-mini-fab type="submit" form="taskForm" class="icon-confirm-dialog w-25">
+                <mat-icon>{{ taskToEdit ? 'save' : 'add_circle' }}</mat-icon>
+            </button>
+        </mat-dialog-actions>
+    </form>
+
 </div>

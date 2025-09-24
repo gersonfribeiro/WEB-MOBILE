@@ -55,3 +55,13 @@ table {
   background-color: #009688;
   color: white;
 }
+
+.icon-edit {
+  background-color: #1976d2;
+  color: white;
+}
+
+.icon-delete {
+  background-color: #d32f2f;
+  color: white;
+}

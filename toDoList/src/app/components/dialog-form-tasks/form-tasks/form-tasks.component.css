@@ -1,0 +1,19 @@
+.icon-close-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 200, 200);
+  color: red;
+}
+
+.icon-confirm-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(162, 219, 162);
+  color: green;
+}
+
+.inputIdTask {
+  height: 10px;
+}

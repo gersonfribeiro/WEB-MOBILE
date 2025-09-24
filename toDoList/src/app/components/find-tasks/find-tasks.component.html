@@ -19,9 +19,13 @@
       (openNewTaskDialog)="handleOpenNewTaskDialog()"
     ></app-search-bar>
 
-    <app-list-tasks />
+    <app-list-tasks
+        [data]="tasks"
+        (editTask)="handleEditTaskDialog($event)"
+        (deleteTask)="handleDeleteTask($event)"
+    ></app-list-tasks>
 
     <app-snackbar-alerts #alerts />
-    <app-dialog-form-tasks #dialogFormTasks />
+
   </div>
 </mat-drawer-container>

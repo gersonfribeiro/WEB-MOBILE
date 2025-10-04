@@ -30,6 +30,15 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    max-width: 100vw;
+    width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+}
+
 h1 {
     font-size: 3.125rem;
     color: var(--gray-900);

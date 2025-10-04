@@ -1,10 +1,42 @@
-<mat-drawer-container class="example-container">
-    <mat-drawer #drawer mode="side" opened="">
-        Drawer content
+<mat-drawer-container class="container-drawer">
+    <mat-drawer #drawer mode="side" opened>
+        <form [formGroup]="buscarPrevisaoForm" (onsubmit)="consultarAPI()">
+            <mat-form-field>
+                <mat-label>Input</mat-label>
+                <input matInput formControlName="location" />
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate formControlName="startDate" placeholder="Start date" />
+                    <input matEndDate formControlName="endDate" placeholder="End date" />
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                @if (buscarPrevisaoForm.controls.startDate.hasError('matStartDateInvalid')) {
+                <mat-error>Invalid start date</mat-error>
+                } @if (buscarPrevisaoForm.controls.endDate.hasError('matEndDateInvalid')) {
+                <mat-error>Invalid end date</mat-error>
+                }
+            </mat-form-field>
+
+            <div>
+                <button matIconButton type="reset">
+                    <mat-icon>clear</mat-icon>
+                </button>
+                <button matIconButton type="submit">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </div>
+
+        </form>
     </mat-drawer>
 
     <mat-drawer-content>
-        <app-navigation-bar [drawer]="drawer"/>
+        <app-navigation-bar [drawer]="drawer" />
 
         <router-outlet />
     </mat-drawer-content>

@@ -9,7 +9,7 @@ import {
     signal,
     SimpleChanges,
 } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-form-tasks',
+    standalone: true, // Adicionado standalone: true
     imports: [
         MatDatepickerModule,
         MatFormFieldModule,
@@ -35,7 +36,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatDialogActions,
     ],
     templateUrl: './form-tasks.component.html',
-    styleUrl: './form-tasks.component.css',
+    styleUrls: ['./form-tasks.component.css'], // Corrigido para styleUrls
     providers: [provideNativeDateAdapter()],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -60,12 +61,12 @@ export class FormTasksComponent implements OnChanges {
 
     constructor(private fb: FormBuilder) {
         this.formTask = this.fb.group({
-            responsaveis: this.fb.control<string[]>([]),
-            urgencia: [''],
-            status: [''],
-            titulo: [''],
-            descricao: [''],
-            previsaoEntrega: [''],
+            responsaveis: this.fb.control<string[]>([], Validators.required),
+            urgencia: ['', Validators.required],
+            status: ['', Validators.required],
+            titulo: ['', Validators.required],
+            descricao: ['', Validators.required],
+            previsaoEntrega: ['', Validators.required],
             dataInicio: [''],
             dataEntrega: [''],
         });
@@ -91,7 +92,12 @@ export class FormTasksComponent implements OnChanges {
 
     onSubmit() {
         if (this.formTask.valid) {
-            this.formSubmitted.emit(this.formTask.value);
+            // Combina os dados do formulário com o ID da tarefa original (se estiver editando)
+            const submittedTask: toDoModel = {
+                ...this.formTask.value,
+                id: this.taskToEdit ? this.taskToEdit.id : 0,
+            };
+            this.formSubmitted.emit(submittedTask);
         } else {
             this.formTask.markAllAsTouched();
         }
